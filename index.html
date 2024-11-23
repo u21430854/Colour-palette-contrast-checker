@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colour palette contrast checker</title>
+  <!--Bootstrap-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!--Bootstrap icons-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!--Montserrat Alternates and Monterrat-->
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+  <!--My styles-->
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+  <h1>Colour palette contrast checker</h1>
+  <a id="scroll" href="#contrastRatioResults" title="Scroll to results"><i class="bi bi-chevron-down"></i></a>
+  <div class="container-fluid">
+    <h4>Enter colours</h4>
+    <div id="colourRow" class="row" style="margin-bottom: 35px;">
+      <div class="col-4 colour-item">
+        <div class="colour-group">
+          <span id="colour1" class="colour-input-group">
+            <span class="hashtag">#</span>
+            <input id="colourText1" type="text" class="hex" value="FFFFFF" autofocus>
+            <input id="colourPicker1" type="color" class="picker" value="#ffffff">
+          </span>
+          <span class="adjust-buttons">
+            Adjust:
+            <button id="btnHSL1" type="button" class="adjust-btn" >HSL</button>
+            <button id="btnRGB1" type="button" class="adjust-btn" >RGB</button>
+          </span>
+        </div>
+        <div id="adjustHSL1" class="adjust adjustHSL">
+          <label class="slideContainer">
+            Hue <span id="hue1Value">0</span>&deg;<br/>
+            <input id="hue1" type="range" min="0" max="360" value="0">
+          </label>
+          <label class="slideContainer">
+            Saturation <span id="sat1Value">0</span>%<br/>
+            <input id="sat1" type="range" min="0" max="100" value="0">
+          </label>
+          <label class="slideContainer">
+            Lightness <span id="light1Value">100</span>%<br/>
+            <input id="light1" type="range" min="0" max="100" value="100">
+          </label>
+        </div>
+        <div id="adjustRGB1" class="adjust adjustRGB">
+          <label class="slideContainer">
+            Red <span id="red1Value">255</span><br/>
+            <input id="red1" type="range" min="0" max="255" value="255">
+          </label>
+          <label class="slideContainer">
+            Green <span id="green1Value">255</span><br/>
+            <input id="green1" type="range" min="0" max="255" value="255">
+          </label>
+          <label class="slideContainer">
+            Blue <span id="blue1Value">255</span><br/>
+            <input id="blue1" type="range" min="0" max="255" value="255">
+          </label>
+        </div>
+      </div>
+      <div class="col-4 colour-item">
+        <div class="colour-group">
+          <span id="colour2" class="colour-input-group">
+            <span class="hashtag">#</span>
+            <input id="colourText2" type="text" class="hex" value="000000">
+            <input id="colourPicker2" type="color" class="picker" value="#000000">
+          </span>
+          <span class="adjust-buttons">
+            Adjust:
+            <button id="btnHSL2" type="button" class="adjust-btn" >HSL</button>
+            <button id="btnRGB2" type="button" class="adjust-btn" >RGB</button>
+          </span>
+        </div>
+        <div id="adjustHSL2" class="adjust adjustHSL">
+          <label class="slideContainer">
+            Hue <span id="hue2Value">0</span>&deg;<br/>
+            <input id="hue2" type="range" min="0" max="360" value="0">
+          </label>
+          <label class="slideContainer">
+            Saturation <span id="sat2Value">0</span>%<br/>
+            <input id="sat2" type="range" min="0" max="100" value="0">
+          </label>
+          <label class="slideContainer">
+            Lightness <span id="light2Value">0</span>%<br/>
+            <input id="light2" type="range" min="0" max="100" value="0">
+          </label>
+        </div>
+        <div id="adjustRGB2" class="adjust adjustRGB">
+          <label class="slideContainer">
+            Red <span id="red2Value">0</span><br/>
+            <input id="red2" type="range" min="0" max="255" value="0">
+          </label>
+          <label class="slideContainer">
+            Green <span id="green2Value">0</span><br/>
+            <input id="green2" type="range" min="0" max="255" value="0">
+          </label>
+          <label class="slideContainer">
+            Blue <span id="blue2Value">0</span><br/>
+            <input id="blue2" type="range" min="0" max="255" value="0">
+          </label>
+        </div>
+      </div>
+    </div>
+    <button id="btnCheck" class="btn btnCheck" type="button">Check contrast</button>
+    <button id="btnAdd" class="btn btnAdd" type="button"><i class="bi bi-plus"></i> Add colour</button>
+    <div id="contrastRatioResults" class="row">
+      <div id="results" class="col-4">
+        <h4>Results</h4>
+        Click on the info button to see the colours in the visualiser
+        <div id="ratios">
+        </div>
+      </div>
+      <div id="visualiser" class="col-8">
+        <h4>Visualiser</h4>
+        <div class="row">
+          <div class="col-6 visualiser-block">
+            Regular text
+            <div id="regularText" class="visualiser">
+              A high colour contrast improves readability. A contrast ratio of at least 4.5 is recommended for regular text.
+            </div>
+          </div>
+          <div class="col-6 visualiser-block">
+            Large text
+            <div id="largeText" class="visualiser">
+              The <a href="https://www.accessibility-developer-guide.com/knowledge/colours-and-contrast/" target="_blank">WCAG</a> recommends a contrast ratio of at least 3 for larger text (18pt and above / 14pt bold and above).
+            </div>
+          </div>
+          <div class="col-12 visualiser-block">
+            UI (at least 3:1)
+            <div id="ui" class="visualiser">
+              <i class="bi bi-circle-fill"></i>
+              <i class="bi bi-triangle-fill"></i>
+              <i class="bi bi-square-fill"></i>
+              <i class="bi bi-arrow-counterclockwise"></i>
+              <i class="bi bi-heart"></i>
+              <i class="bi bi-hand-thumbs-up"></i>
+              <i class="bi bi-bookmark"></i>
+              <i class="bi bi-chat-dots"></i>
+              <i class="bi bi-cart"></i>
+              <i class="bi bi-eye-slash"></i>
+              <i class="bi bi-battery-half"></i>
+              <i class="bi bi-person-circle"></i>
+              <i class="bi bi-pin"></i>
+              <i class="bi bi-bell"></i>
+              <i class="bi bi-moon"></i>
+              <i class="bi bi-house"></i>
+              <i class="bi bi-envelope"></i>
+              <i class="bi bi-file-earmark"></i>
+              <i class="bi bi-clock"></i>
+            </div>
+          </div>
+          <div class="col-12 visualiser-block">
+            <div>Graphical Objects (at least 3:1)</div>
+            <div class="chart-visualiser">
+              <canvas id="donutChart"></canvas>
+            </div>
+            <div class="chart-visualiser">
+              <canvas id="mixedChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!--Bootsrap script-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+  <!--Chart.js script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <!--My script-->
+  <script src="script.js"></script>
+</body>
+</html>
+
+<!-- <div id="pair1" class="pair">
+  <button id="info1" class="btnInfo" title="Visualise colour pair">
+    <i class="bi bi-info-circle"></i>
+  </button>
+  <span id="colour1-1" class="pair-colour"></span>
+  <button id="switch1" class="btnSwitch" title="Switch text and background colours">
+    <i class="bi bi-arrow-left-right"></i>
+  </button>
+  <span id="colour1-2" class="pair-colour"></span>
+  <span id="ratio1" class="contrast-ratio pass">21
+    <i class="bi bi-check-circle"></i> / 
+    <i class="bi bi-x-circle"></i>
+  </span>
+</div> -->
